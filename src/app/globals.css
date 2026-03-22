@@ -1,26 +1,145 @@
 @import "tailwindcss";
 
+@custom-variant light (&:where(html.light *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --accent-cyan: #22d3ee;
+  --accent-violet: #a78bfa;
+  --accent-mint: #2dd4bf;
+  --surface-glass: rgba(255, 255, 255, 0.06);
+  --surface-glass-border: rgba(255, 255, 255, 0.12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html.dark body {
+  background-color: #030712;
+  background-image:
+    radial-gradient(ellipse 140% 80% at 50% -30%, rgba(56, 189, 248, 0.14), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 100% 0%, rgba(167, 139, 250, 0.18), transparent 45%),
+    radial-gradient(ellipse 70% 50% at 0% 100%, rgba(45, 212, 191, 0.08), transparent 50%),
+    linear-gradient(165deg, #030712 0%, #0a0f1a 35%, #060a12 70%, #030712 100%);
+  color: #e4e4e7;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html.dark body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cpath fill='%23ffffff' fill-opacity='0.02' d='M28 0v56M0 28h56'/%3E%3C/svg%3E");
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, black 20%, transparent 70%);
+}
+
+html.light body {
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(ellipse 120% 70% at 50% -20%, rgba(56, 189, 248, 0.12), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 10%, rgba(167, 139, 250, 0.1), transparent 45%),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 40%, #eef2ff 100%);
+  color: #18181b;
+}
+
+html.light body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath fill='%236366f1' fill-opacity='0.04' d='M20 0v40M0 20h40'/%3E%3C/svg%3E");
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.35);
+  color: #fafafa;
+}
+
+html.light ::selection {
+  background: rgba(99, 102, 241, 0.25);
+  color: #0f172a;
+}
+
+.glass-panel {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  backdrop-filter: blur(24px) saturate(1.35);
+  -webkit-backdrop-filter: blur(24px) saturate(1.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+html.light .glass-panel {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.78) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 4px 24px rgba(15, 23, 42, 0.06);
+}
+
+/* Main column: comfortable reading width on ultrawide */
+.app-main-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  animation: shimmer-sweep 2s ease-in-out infinite;
+}
+
+html.light .animate-shimmer::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }

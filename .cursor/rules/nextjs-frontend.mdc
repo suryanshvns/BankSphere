@@ -1,0 +1,68 @@
+---
+description: Next.js frontend coding standards and UI architecture
+globs: ["src/**/*.{ts,tsx}"]
+---
+
+# Next.js Frontend Rules
+
+## Core principles
+- Use Next.js App Router (not Pages Router).
+- Use TypeScript strictly (no `any`).
+- Prefer functional and declarative programming.
+- Avoid classes except for React error boundaries.
+- Use hooks and functions.
+
+## Project structure
+- `src/app/` — routes, layouts, thin `page.tsx` files
+- `src/components/ui/` — primitives
+- `src/components/shared/` — shell, providers, feature views
+- `src/hooks/` — TanStack Query hooks and reusable logic
+- `src/services/` — HTTP client and API functions (no direct calls from UI)
+- `src/store/` — Zustand global state
+- `src/utils/` — pure helpers
+- `src/schemas/` — Zod validation schemas
+
+## Naming
+- camelCase — variables and functions
+- PascalCase — components
+- kebab-case — folders
+- Prefix event handlers with `handle` (e.g. `handleSubmit`)
+- Booleans — `isLoading`, `hasError`, `isOpen`
+
+## Components
+- Small, reusable pieces; one main component per file.
+- Prefer named exports.
+- Avoid prop drilling — use Zustand or composition.
+
+## Styling
+- Tailwind CSS, mobile-first.
+- Avoid inline styles except unavoidable (e.g. third-party chart).
+
+## State
+- Local — `useState` / `useReducer`
+- Global — Zustand (`src/store/`)
+- Server/async — TanStack Query (`src/hooks/`)
+
+## API
+- Centralized in `src/services/`.
+- UI and route views consume data via hooks only.
+
+## Errors
+- Use error boundaries (`RootErrorBoundary`).
+- User-facing copy via toasts and inline messages.
+
+## Performance
+- Default to Server Components in `page.tsx` where possible.
+- Use `"use client"` only in views/hooks that need it.
+- Lazy-load heavy client modules when justified.
+
+## Security
+- No secrets in the frontend.
+- Sanitize and validate input (Zod + RHF).
+
+## Forms
+- React Hook Form + Zod (`@hookform/resolvers/zod`).
+
+## Routing
+- All routes under `src/app/`.
+- Layouts stay minimal; shared chrome in `components/shared/`.
