@@ -1,5 +1,6 @@
-import { resolvePublicApiBaseUrl } from "./public-api-base";
+/** BankSphere API — single backend base (no env fallbacks). */
+const API_BASE_URL = "https://banksphere-backend.onrender.com/api/v1";
 
 export function getApiBaseUrl() {
-  return resolvePublicApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL);
+  return API_BASE_URL;
 }
